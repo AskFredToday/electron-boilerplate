@@ -2,26 +2,31 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Electron Boilerplate</title>
+    <title>Operator</title>
 
+    <link href="stylesheets/normalize.css" rel="stylesheet" type="text/css">
     <link href="stylesheets/main.css" rel="stylesheet" type="text/css">
 
     <script src="helpers/context_menu.js"></script>
     <script src="helpers/external_links.js"></script>
 
+    <script src="external/riot-3.3.2.min.js"></script>
+
+    <link href="https://askfred.today/riot_tags/af-input/af-input.css" rel="stylesheet" type="text/css">
+    <script src="https://askfred.today/riot_tags/af-input/af-input.tag.js"></script>
+
+    <link href="https://askfred.today/riot_tags/af-button/af-button.css" rel="stylesheet" type="text/css">
+    <script src="https://askfred.today/riot_tags/af-button/af-button.tag.js"></script>
+
+    <script src="external/jssip-3.0.3.min.js"></script>
+    <script src="https://askfred.today/riot_tags/af-jssip/af-jssip.tag.js"></script>
+
+
     <script src="app.js"></script>
 </head>
 <body>
 
-    <div class="container">
-        <h1 id="greet"></h1>
-        <p class="subtitle">
-            Welcome to <a href="http://electron.atom.io" class="js-external-link">Electron</a> app running on this magnificent <strong id="platform-info"></strong> machine.
-        </p>
-        <p class="subtitle">
-            You are in <strong id="env-name"></strong> environment.
-        </p>
-    </div>
+    <div id="jssip">We are loading the js sip lib...</div>
 
 </body>
 </html>

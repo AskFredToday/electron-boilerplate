@@ -5,7 +5,8 @@
 
 import path from 'path';
 import url from 'url';
-import { app, Menu } from 'electron';
+import os from 'os'; // native node.js module
+import { app, Menu, autoUpdater } from 'electron';
 import { devMenuTemplate } from './menu/dev_menu_template';
 import { editMenuTemplate } from './menu/edit_menu_template';
 import createWindow from './helpers/window';
@@ -31,13 +32,19 @@ if (env.name !== 'production') {
     var userDataPath = app.getPath('userData');
     app.setPath('userData', userDataPath + ' (' + env.name + ')');
 }
+else {
+    var platform = os.platform() + '_' + os.arch();
+    var version = app.getVersion();
+    autoUpdater.setFeedURL('http://nuts.askfred.today:6000/update/' + platform + '/' + version);
+}
 
 app.on('ready', function () {
     setApplicationMenu();
 
     var mainWindow = createWindow('main', {
         width: 1000,
-        height: 600
+        height: 600,
+        webaudio : true
     });
 
     mainWindow.loadURL(url.format({
