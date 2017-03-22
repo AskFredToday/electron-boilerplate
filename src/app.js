@@ -62,4 +62,62 @@ document.addEventListener('DOMContentLoaded', function() {
     mic.pipe(detector);*/
 
 
+/*    var googleTTS = require('google-tts-api');
+ 
+googleTTS('Bonjour Noah, comment vas-tu?', 'fr', 1)   // speed normal = 1 (default), slow = 0.24 
+.then(function (url) {
+  console.log(url); // https://translate.google.com/translate_tts?... 
+})
+.catch(function (err) {
+  console.error(err.stack);
 });
+*/
+
+var say = require('say');
+ 
+// Use default system voice and speed 
+say.speak("Bonjour Frederic!");//" L'agenda est dégagé, il serait bien de travailler sur Saxophone aujourd'hui");
+
+
+
+const Sonus = require('sonus')
+const path = require('path')
+const speech = require('@google-cloud/speech')({
+  projectId: 'streaming-speech-sample',
+  keyFilename: path.resolve('./google_speech_key.json')
+})
+
+const hotwords = [
+  { file: path.resolve('node_modules/sonus/resources/snowboy.umdl'), hotword: 'snowboy' },
+  { file: path.resolve('./app/resources/mute.pmdl'), hotword: 'mute' }
+];
+const language = "fr-FR"
+
+//recordProgram can also be 'arecord' which works much better on the Pi and low power devices
+const sonus = Sonus.init({ hotwords, language, recordProgram: "rec" }, speech)
+
+Sonus.start(sonus)
+console.log('Say "' + hotwords[0].hotword + '"...')
+
+sonus.on('hotword', function(index, keyword) {
+  console.log('!' + keyword);
+  if(keyword == 'mute') {
+    bus.trigger('togglemute');
+  }
+});
+sonus.on('partial-result', result => console.log("Partial", result))
+
+sonus.on('final-result', result => {
+  console.log("Final", result)
+  if (result.includes("stop")) {
+    Sonus.stop()
+  }
+  if (result.includes("conférence")) {
+    console.log("Dialing!");
+    bus.trigger('dial', '+19178196323');
+  }
+});
+
+});
+
+

@@ -47,15 +47,16 @@ app.on('ready', function () {
         webaudio : true
     });
 
+    if (env.name === 'development') {
+        mainWindow.openDevTools();
+        mainWindow.webContents.session.clearCache(function() {});
+    }
+    
     mainWindow.loadURL(url.format({
         pathname: path.join(__dirname, 'app.html'),
         protocol: 'file:',
         slashes: true
     }));
-
-    if (env.name === 'development') {
-        mainWindow.openDevTools();
-    }
 });
 
 app.on('window-all-closed', function () {
